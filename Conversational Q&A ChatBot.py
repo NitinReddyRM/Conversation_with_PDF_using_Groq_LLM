@@ -15,7 +15,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 Embeddings=HuggingFaceEmbeddings(model_name='all-MiniLM-L6-v2')
 st.title('Conversational RAG with PDF uploads and chat history')
 st.write('Upload PDF"s and chat with their content')
-api_key=st.text_input('Enter your Groq API key:',type='password',value='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')
+api_key=st.text_input('Enter your Groq API key:',type='password')
 if api_key:
     llm=ChatGroq(groq_api_key=api_key,model_name='Gemma2-9b-It')
 
