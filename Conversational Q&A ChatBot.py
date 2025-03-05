@@ -17,7 +17,17 @@ st.title('Conversational RAG with PDF uploads and chat history')
 st.write('Upload PDF"s and chat with their content')
 api_key=st.text_input('Enter your Groq API key:',type='password')
 if api_key:
-    llm=ChatGroq(groq_api_key=api_key,model_name='Gemma2-9b-It')
+    try:
+        llm = ChatGroq(groq_api_key=api_key, model_name='Gemma2-9b-It')
+        st.write(llm.invoke('Great me with in one line with emojis and say your name as '
+                            'Nitin and tell them to upload any pdfs I get the insites of it ').content)
+    except Exception as e:
+        api_key=False
+        st.warning('Enter correct API')
+else:
+    st.warning('enter Groq API key')
+
+if api_key:
 
     session_id=st.text_input('Session ID',value='default_session')
     if 'store' not in st.session_state:
@@ -38,7 +48,7 @@ if api_key:
     # split and create embeddings for the documents
         text_splitter=RecursiveCharacterTextSplitter(chunk_size=500,chunk_overlap=50)
         splits=text_splitter.split_documents(documents)
-        chroma_path='E:/AI_projects/langchain/1-longchain/RAG_model/OpenAI_ChatBot/RAG_Model_for_PDF"s/Chromadb'
+        chroma_path="E:/AI_projects/langchain/1-longchain/RAG_model/OpenAI_ChatBot/RAG_Model_for_PDF's/Chromadb"
         vector_store=Chroma.from_documents(documents=splits,embedding=Embeddings,persist_directory=chroma_path)
         retriever=vector_store.as_retriever()
 
@@ -102,5 +112,4 @@ if api_key:
                 # st.write('chat History',session_history.messages)
             else:
                 st.warning('Kindly enter your queary')
-else:
-    st.warning('enter Groq API key')
+
